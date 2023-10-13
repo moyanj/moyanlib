@@ -4,7 +4,7 @@ import time
 setup(
     name='moyanlib',
     version='1.4.'+str(int(time.time())),
-    description='A description of your package.',
+    description='莫颜的个人python函数包',
     author='MoYan',
     packages=find_packages(),
     install_requires=[
@@ -12,7 +12,10 @@ setup(
         'requests',
         "jinja2",
         "psutil",
-        "click"
+        "click",
+        "openai",
+        "tiktoken",
+        "rsa"
     ],
     classifiers=[
         'Development Status :: 3 - Alpha',
