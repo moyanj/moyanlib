@@ -15,7 +15,8 @@ setup(
         "click",
         "openai",
         "tiktoken",
-        "rsa"
+        "rsa",
+        "msgpack"
     ],
     classifiers=[
         'Development Status :: 3 - Alpha',
