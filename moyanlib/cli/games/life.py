@@ -54,7 +54,7 @@ grid = initialize_grid(100,100)
 # 创建空白图像列表
 images = []
 
-def main(x,y,seed,worlNumber,number):
+def main(x,y,seed,worldNumber,number):
     iterations = number
 
     # 初始化网格
@@ -62,7 +62,7 @@ def main(x,y,seed,worlNumber,number):
 
     # 创建空白图像列表
     images = []
-    for iss in range(0,worlNumber):
+    for iss in range(0,worldNumber):
         if seed == "None":
             seeds = random.randint(0,4294967295)
         else:

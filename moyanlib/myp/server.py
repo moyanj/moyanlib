@@ -1,45 +1,39 @@
-import socket
+import socketserver as ss
 from moyanlib import myp
 
-class Server:
-    def __init__(self, hosts="0.0.0.0",port:int=8000):
-        self.hosts = hosts
-        self.routes = {}
-
-    def route(self, path):
+class Server(ss.BaseRequestHandler):
+    @classmethod
+    def route(cls,pattern):
         def decorator(func):
-            self.routes[path] = func
+            cls.routes[pattern] = func
             return func
         return decorator
-    def _loadClientData(text:str):
-        t1 = text.split("\n")
-        path = t1[0]
-        t2 = t1[1].split("[")
-        t2 = t2[1].split("]")
-        headers = t2.split("\n")
-        headers = [i.split(":") for i in headers]
-        data = {
-            "path":path,
-            "headers":headers
-        }
 
-    def _handle_request(self, content:bytes,addr):
-        data = self._loadClientData(content.decode())
+    def run(self,hosts:str="0.0.0.0",port:int=8000):
+        server = ss.TCPServer((hosts,port),self)
+        server.serve_forever()
 
-        if data["path"] in self.routes:
-            pass
-        else:
-            # 处理路径不存在的情况
-            return myp.Response(code=2)
+    def __init__(self):
+        self.routes = {}
 
-    def run(self):
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.bind((self.hosts, self.port))
-            s.listen()
-            while True:
-                conn, addr = s.accept()
-                ret = conn.recv(4096)
-                request = myp.Request(ret,addr)
-                response = self._handle_request(request)
-                conn.send(response)
-                conn.close()
+    def handle(self):
+        while True:
+            data = self.request.recv(1024)
+            if not data:
+                break
+            request = myp.loadClientData(data)
+            func = self.routes.get(request["path"], None)
+            if func:
+                retData = func(request)
+                self.request.sendall(myp.dumpServerData(retData["header"], retData["data"].encode("utf-8"), retData["code"]))
+            else:
+                self.request.sendall(myp.dumpServerData(data=b"404",code=4))
+
+    def finish(self):
+        self.request.close
+
+
+if __name__ == "__main__":
+    HOST, PORT = "localhost", 9999
+    with ss.TCPServer((HOST, PORT), Server) as server:
+        server.serve_forever()

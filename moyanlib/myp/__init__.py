@@ -1,15 +1,25 @@
-class Request:
-    def __init__(self, path, headers, body):
-        self.path = path
-        self.headers = headers
-        self.body = body
+import msgpack
 
-def Response(headers:list[dict]=[],data:bytes=b"ERROR",code:int=1):
-    strHead = ""
-    for header in headers:
-        strHead += header["name"] + ":" + header["value"] + "\n"
-    if strHead == "":
-        strHead = "None"
-    retH= f"code:{str(code)}[haeders={strHead}]".encode("utf-8")
-    retdata:bytes = retH+data
-    return retdata
+def dumpServerData(header:dict={},data:bytes=b"",code:int=1):
+    datas = {
+        "headers": header,
+        "data": data,
+        "code": code
+    }
+    return msgpack.packb(datas, use_bin_type=True)
+
+def dumpClientData(path:str,headers:dict,data:bytes):
+    datas = {
+        "path": path,
+        "headers": headers,
+        "data": data
+    }
+    return msgpack.packb(datas, use_bin_type=True)
+
+def loadServerData(data:bytes):
+    datas = msgpack.unpackb(data, raw=False)
+    return datas
+
+def loadClientData(data:bytes):
+    datas = msgpack.unpackb(data, raw=False)
+    return datas

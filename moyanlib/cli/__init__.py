@@ -112,15 +112,16 @@ def init(types):
     else:
         func()
 
-@cli.command(help="小游戏")
+@cli.group(help="小游戏")
 def game():
     pass
 
 @game.command(help="生命游戏")
 @click.option("--size", "-s", help="生命游戏大小",default="100x100")
-@click.option("--seed", "-se", help="生命游戏种子",default=114514)
-@click.option("--savePath", "-sp", help="保存路径",default="./")
-@click.option("--worlNumber", "-wn", help="生命游戏数量",default=1)
-@click.option("--number","-n",help="生命游戏进化次数",default=1)
-def life(size,seed,savePath,worlNumber,number):
-    gm.life.main(size,seed,savePath,worlNumber,number)
+@click.option("--seed", "-se", help="生命游戏种子",default="114514")
+@click.option("--worldNumber", "-wn", help="生命游戏数量",default="1")
+@click.option("--number","-n",help="生命游戏进化次数",default="1")
+def lifegame(size,seed,worldNumber,number):
+    x=int(size.split("x")[0])
+    y=int(size.split("x")[1])
+    gm.life.main(x,y,int(seed),int(worldNumber),int(number))
