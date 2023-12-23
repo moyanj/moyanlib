@@ -13,8 +13,6 @@ setup(
         "jinja2",
         "psutil",
         "click",
-        "openai",
-        "tiktoken",
         "rsa",
         "msgpack"
     ],
