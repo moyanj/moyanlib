@@ -1,0 +1,21 @@
+name: Python Test
+
+on: 
+    push:
+    pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Install dependencies
+        run: pip install wheel setuptools # 如果有依赖包的话，需提前准备一个 requirements.txt 文件
+        
+      - name: Install MoYanLib
+        run: python setup.py develop
+        
+      - name: Run tests
+        run: python -m unittest discover -s tests  # 根据你的测试文件夹路径和命令进行调整

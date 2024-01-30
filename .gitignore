@@ -3,4 +3,3 @@ build/
 .history/
 *.pyc
 *.egg-info/
-test*
