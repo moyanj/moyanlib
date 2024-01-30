@@ -5,19 +5,20 @@ import time as _time
 import hashlib as h
 import os
 
+
 @click.group()
 def cli():
     pass
+
 
 @cli.command(help="清除pyc")
 def clear_pyc():
     # 使用os遍历所有目录
     for root, dirs, files in os.walk("."):
         for file in files:
-
             if file.split(".")[-1] == "pyc":
                 path = os.path.join(root, file)
-                print("正在删除："+path)
+                print("正在删除：" + path)
                 os.remove(path)
     click.echo("清除完成")
 
@@ -42,7 +43,7 @@ def get_timestamp(three):
 
 
 @time.command(help="获取当前时间（可自定义）")
-@click.option("--format", "-f",help="时间格式", default="%Y-%m-%d %H:%M:%S")
+@click.option("--format", "-f", help="时间格式", default="%Y-%m-%d %H:%M:%S")
 def get_time(formats):
     click.echo(_time.strftime(formats, _time.localtime()))
 

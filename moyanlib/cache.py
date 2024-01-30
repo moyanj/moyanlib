@@ -2,10 +2,11 @@ import os
 import time
 import json
 
+
 class Cache:
     def __init__(self, cache_dir="cache"):
         self.cache_dir = cache_dir
-        os.makedirs(cache_dir,exist_ok=True)
+        os.makedirs(cache_dir, exist_ok=True)
 
     def get(self, key):
         # 获取缓存

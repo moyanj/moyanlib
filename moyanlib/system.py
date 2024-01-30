@@ -11,6 +11,7 @@ def listdir(path):
     else:
         return object
 
+
 def remove_file(path):
     # 删除文件
     if os.path.exists(path):

@@ -2,10 +2,11 @@ import datetime
 import os
 import moyanlib.Error as Error
 
+
 class Logger:
     # 日志类
 
-    def __init__(self, log_dir='./', level="INFO"):
+    def __init__(self, log_dir="./", level="INFO"):
         # 初始化
         # log_dir:日志目录
         # level：日志级别
