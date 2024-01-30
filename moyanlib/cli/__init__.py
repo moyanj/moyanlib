@@ -1,34 +1,13 @@
 import click
-from moyanlib.http import request
 import moyanlib
 import platform as pf
 import time as _time
 import hashlib as h
 import os
-import moyanlib.cli.poject as pj
-import moyanlib.cli.initpj as initpj
-from moyanlib.cli import games as gm
 
 @click.group()
 def cli():
     pass
-
-
-@cli.command(help="发起HTTP请求")
-# 参数
-@click.option('--url', '-u', help="请求地址")
-@click.option('--method', '-m', default='GET', help="请求方法")
-@click.option('--cookies', '-c', help="请求cookie", default='')
-def requests(url, method, cookies):
-    req = request()
-    header = {}
-    header["cookie"] = cookies
-    requ = req.send({
-        "url": url,
-        "method": method
-    })
-    click.echo(requ.text)
-
 
 @cli.command(help="清除pyc")
 def clear_pyc():
@@ -64,8 +43,8 @@ def get_timestamp(three):
 
 @time.command(help="获取当前时间（可自定义）")
 @click.option("--format", "-f",help="时间格式", default="%Y-%m-%d %H:%M:%S")
-def get_time(format):
-    click.echo(_time.strftime(format, _time.localtime()))
+def get_time(formats):
+    click.echo(_time.strftime(formats, _time.localtime()))
 
 
 @cli.group(help="文件操作")
@@ -81,47 +60,3 @@ def mkdir(path):
     else:
         os.mkdir(path)
         click.echo("文件夹创建成功")
-
-@cli.group(help="项目")
-def project():
-    pass
-
-@project.command(help="创建项目")
-@click.option("--path", "-p", help="项目路径",default="./")
-@click.argument("types")
-def create(path,types):
-    try:
-        func = getattr(pj, types)
-    except AttributeError:
-        click.echo("项目类型错误")
-    else:
-        PJ_name=input("项目名: ")
-        PJ_author=input("作者: ")
-        PJ_site=input("项目地址: ")
-        PJ_license=input("许可证: ")
-        func(path,PJ_name,PJ_author,PJ_site,PJ_license)
-    
-
-@project.command(help="配置项目")
-@click.argument("types")
-def init(types):
-    try:
-        func = getattr(pj, types)
-    except AttributeError:
-        click.echo("项目类型错误")
-    else:
-        func()
-
-@cli.group(help="小游戏")
-def game():
-    pass
-
-@game.command(help="生命游戏")
-@click.option("--size", "-s", help="生命游戏大小",default="100x100")
-@click.option("--seed", "-se", help="生命游戏种子",default="114514")
-@click.option("--worldNumber", "-wn", help="生命游戏数量",default="1")
-@click.option("--number","-n",help="生命游戏进化次数",default="1")
-def lifegame(size,seed,worldNumber,number):
-    x=int(size.split("x")[0])
-    y=int(size.split("x")[1])
-    gm.life.main(x,y,int(seed),int(worldNumber),int(number))

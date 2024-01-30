@@ -1,12 +1,19 @@
 import datetime
 import os
 import moyanlib.Error as Error
+
 class Logger:
-    def __init__(self, log_dir=None, level="INFO"):
-        self.log_dir = log_dir if log_dir is not None else ""
+    # 日志类
+
+    def __init__(self, log_dir='./', level="INFO"):
+        # 初始化
+        # log_dir:日志目录
+        # level：日志级别
+        self.log_dir = log_dir
         self.level = level
 
     def _write(self, msg):
+        # 写入日志
         current_time = datetime.datetime.now()
         file_name = os.path.join(
             self.log_dir, f'{current_time.strftime("%Y-%m-%d")}.log'

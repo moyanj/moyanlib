@@ -5,8 +5,10 @@ import json
 class Cache:
     def __init__(self, cache_dir="cache"):
         self.cache_dir = cache_dir
+        os.makedirs(cache_dir,exist_ok=True)
 
     def get(self, key):
+        # 获取缓存
         path = self._get_path(key)
 
         if os.path.exists(path):
@@ -20,12 +22,14 @@ class Cache:
             return None
 
     def set(self, key, value, ttl=None):
+        # 设置缓冲
         path = self._get_path(key)
         data = {"value": value, "created_at": time.time(), "ttl": ttl}
         with open(path, "w") as f:
             json.dump(data, f)
 
     def get_all(self):
+        # 获取所有缓存
         all_data = {}
         for filename in os.listdir(self.cache_dir):
             path = os.path.join(self.cache_dir, filename)
@@ -37,11 +41,13 @@ class Cache:
         return all_data
 
     def delete(self, key):
+        # 删除指定缓存
         path = self._get_path(key)
         if os.path.exists(path):
             os.remove(path)
 
     def delete_all(self):
+        # 删除所有缓存
         for filename in os.listdir(self.cache_dir):
             path = os.path.join(self.cache_dir, filename)
             if os.path.isfile(path) and filename.endswith(".json"):

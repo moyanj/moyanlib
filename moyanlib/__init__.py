@@ -21,6 +21,7 @@ def generate_verifi_code(wei:int = 4):
     return verification_code
 
 def getDeviceID():
+    # 获取设备ID
     system_name = pf.platform()
     computer_name = pf.node()
     computer_system = pf.system()
