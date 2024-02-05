@@ -1,6 +1,6 @@
-import datetime
-import os
-import moyanlib.Error as Error
+import datetime as _dt
+import os as _os
+from . import Error as _Error
 
 
 class Logger:
@@ -15,8 +15,8 @@ class Logger:
 
     def _write(self, msg):
         # 写入日志
-        current_time = datetime.datetime.now()
-        file_name = os.path.join(
+        current_time = _dt.datetime.now()
+        file_name = _os.path.join(
             self.log_dir, f'{current_time.strftime("%Y-%m-%d")}.log'
         )
         log_msg = f'[{current_time.strftime("%Y-%m-%d %H:%M:%S.%f")}] {msg}\n'
@@ -24,7 +24,7 @@ class Logger:
             with open(file_name, "a") as f:
                 f.write(log_msg)
         except:
-            raise Error.log_LogDirError()
+            raise _Error.PathError()
         print(log_msg.strip())
 
     def debug(self, msg):

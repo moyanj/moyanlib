@@ -1,31 +1,31 @@
-import os
-import moyanlib.Error as Error
+import os as _os
+import moyanlib.Error as _Error
 
 
 def listdir(path):
     # 列出所有dir
     try:
-        object = os.listdir(path)
+        obj = _os.listdir(path)
     except:
-        raise Error.file_PathError(path)
+        raise _Error.PathError(path)
     else:
-        return object
+        return obj
 
 
 def remove_file(path):
     # 删除文件
-    if os.path.exists(path):
-        os.remove(path)
+    if _os.path.exists(path):
+        _os.remove(path)
 
 
 def move_file(src, dst):
     # 重命名
-    if os.path.exists(src):
-        os.rename(src, dst)
+    if _os.path.exists(src):
+        _os.rename(src, dst)
 
 
 def system(command):
     # 获取system
-    object = os.popen(command)
-    text = object.read()
+    obj = _os.popen(command)
+    text = obj.read()
     return text

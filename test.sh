@@ -1,0 +1,1 @@
+python -m pytest --html=report/testReport.html --cov --cov-report=html

@@ -3,18 +3,16 @@ import time
 
 setup(
     name="moyanlib",
-    version="1.4." + str(int(time.time())),
+    version="1.5." + str(int(time.time())),
     description="莫颜的个人python函数包",
     author="MoYan",
     packages=find_packages(),
     install_requires=[
         # 添加你的依赖库
         "requests",
-        "jinja2",
         "psutil",
         "click",
         "rsa",
-        "msgpack",
     ],
     classifiers=[
         "Development Status :: 3 - Alpha",
@@ -25,7 +23,4 @@ setup(
     ],
     # 添加命令
     entry_points={"console_scripts": ["moyancli = moyanlib.cli:cli"]},
-    package_data={
-        "moyanlib": ["data/******/*****/****/***/**/*"],
-    },
 )

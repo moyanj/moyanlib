@@ -1,11 +1,11 @@
 # pylint:disable=W0613
 # pylint:disable=W0621
-from functools import wraps
-import time
-import threading
+from functools import wraps as _wraps
+import time as _time
+import threading as _threading
 
 
-class _Thread(threading.Thread):
+class _Thread(_threading.Thread):
     def __init__(
         self, group=None, target=None, name=None, args=(), kwargs=None, *, daemon=None
     ):
@@ -18,14 +18,14 @@ class _Thread(threading.Thread):
         self.result = self.func(*self.args)
 
     def get_result(self):
-        threading.Thread.join(self)  # 等待线程执行完毕
+        _threading.Thread.join(self)  # 等待线程执行完毕
         return self.result
 
 
 def repeat(number_of_times):
     # 多次执行
     def decorate(func):
-        @wraps(func)
+        @_wraps(func)
         def wrapper(*args, **kwargs):
             for _ in range(number_of_times):
                 func(*args, **kwargs)
@@ -36,7 +36,7 @@ def repeat(number_of_times):
 
 
 def debug(func):
-    @wraps(func)
+    @_wraps(func)
     def wrapper(*args, **kwargs):
         print(f"Debugging {func.__name__} - args: {args}, kwargs: {kwargs}")
         result = func(*args, **kwargs)
@@ -48,11 +48,11 @@ def debug(func):
 
 
 def run_time(func):
-    @wraps(func)
+    @_wraps(func)
     def wrapper(*args, **kwargs):
-        start = time.time()
+        start = _time.time()
         func(*args, **kwargs)  # 函数在这里运行
-        end = time.time()
+        end = _time.time()
         cost_time = end - start
         print("func three run time {}s".format(cost_time))
 
@@ -61,7 +61,7 @@ def run_time(func):
 
 def condition(condition):
     def decorator(func):
-        @wraps(func)
+        @_wraps(func)
         def wrapper(*args, **kwargs):
             if condition:
                 return func(*args, **kwargs)
@@ -74,7 +74,7 @@ def condition(condition):
 
 
 def thread(func):
-    @wraps(func)
+    @_wraps(func)
     def wrapper(*args, **kwargs):
         threads = _Thread(target=func, args=args, kwargs=kwargs)
         threads.start()

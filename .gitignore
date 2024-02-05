@@ -3,3 +3,6 @@ build/
 .history/
 *.pyc
 *.egg-info/
+report/
+.pytest_cache/
+.coverage

@@ -1,0 +1,11 @@
+requests
+click
+psutil
+rsa
+pytest
+pytest-html
+pytest-mock
+pytest-cov
+setuptools
+wheel
+twine
