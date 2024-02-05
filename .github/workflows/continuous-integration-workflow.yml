@@ -5,46 +5,48 @@
 name: Upload Python Package gotwo
 
 on:
-  # 当master分支有push时，触发action
-  push:
-  pull_request:
+    # 当master分支有push时，触发action
+    push:
+    pull_request:
 
 jobs:
-  deploy:
-    name: publish python package to PYPI
-    # 此作业在 Linux 上运行
-    runs-on: ubuntu-latest
+    deploy:
+        name: publish python package to PYPI
+        # 此作业在 Linux 上运行
+        runs-on: ubuntu-latest
 
-    steps:
-    # 此步骤使用 GitHub 的 https://github.com/actions/checkout
-    - uses: actions/checkout@v2
+        steps:
+            # 此步骤使用 GitHub 的 https://github.com/actions/checkout
+            - uses: actions/checkout@v2
 
-    # 安装依赖
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install -r requirements.txt 
-    - name: Test Code
-      run: |
-        chmod +x ./test.sh
-        ./test.sh
-    # 构建和发布
-    - name: Build and publish
-      env:
-        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-      run: |
-        python setup.py sdist bdist_wheel
-        twine upload dist/*
+            # 安装依赖
+            - name: Install dependencies
+                run: |
+                    python -m pip install --upgrade pip
+                    python -m pip install -r requirements.txt 
+                    
+            - name: Test Code
+                run: |
+                    chmod +x ./test.sh
+                    ./test.sh
+                    
+            # 构建和发布
+            - name: Build and publish
+                env:
+                    TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+                    TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+                run: |
+                    python setup.py sdist bdist_wheel
+                    twine upload dist/*
         
-    - name: Archive Test Report
-        uses: actions/upload-artifact@v2
-        with:
-          name: TestReport.zip
-          path: report/
+            - name: Archive Test Report
+                uses: actions/upload-artifact@v2
+                with:
+                    name: TestReport.zip
+                    path: report/
           
-    - name: Archive Cov Report
-        uses: actions/upload-artifact@v2
-        with:
-          name: CovReport.zip
-          path: htmlcpv/
+            - name: Archive Cov Report
+                uses: actions/upload-artifact@v2
+                with:
+                    name: CovReport.zip
+                    path: htmlcov/
