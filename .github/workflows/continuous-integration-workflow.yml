@@ -26,6 +26,7 @@ jobs:
         python -m pip install -r requirements.txt 
     - name: Test Code
       run: |
+        chmod +x ./test.sh
         ./test.sh
     # 构建和发布
     - name: Build and publish
