@@ -36,3 +36,15 @@ jobs:
       run: |
         python setup.py sdist bdist_wheel
         twine upload dist/*
+        
+    - name: Archive Test Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: TestReport.zip
+          path: report/
+          
+    - name: Archive Cov Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: CovReport.zip
+          path: htmlcpv/
