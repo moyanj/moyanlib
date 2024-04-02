@@ -81,7 +81,7 @@ def getInfo():
                 'MAC':get_mac_address()
             },
             'MoYanDeviceID':getDeviceID(),
-            'UUID_DeviceID':uuid.getnode(),
+            'UUID_DeviceID':_uuid.getnode(),
             'Process':processes
             
         }
