@@ -3,8 +3,91 @@ import random as _ran
 import psutil as _ps
 import platform as _pf
 import hashlib as _h
+import sys as _sys
+import os as _os
+import uuid as _uuid
+import time as _t
+from . import jsons as _json
 
-
+def get_mac_address():
+    mac=_uuid.UUID(int = _uuid.getnode()).hex[-12:]
+    return ":".join([mac[e:e+2] for e in range(0,11,2)])
+   
+   
+def getInfo():
+    pythontype = _pf.python_implementation()
+    ver = _pf.python_version()
+    osver = _pf.release()
+    systemtype = _pf.machine()
+    osname = _pf.system()
+    
+    processes = []
+    for pid in _ps.pids():
+        process = _ps.Process(pid)
+        process_info = {
+            'PID':pid,
+            'Name':process.name(),
+            'CWD':process.cwd(),
+            'FilePath':process.exe(),
+            'Running':process.is_running(),
+            'FDS':process.num_fds(),
+            'Threads':process.num_threads(),
+            'CmdLine':process.cmdline(),
+            
+        }
+        processes.append(process_info)
+         
+    ua = {
+        'Python':{
+            'Version':ver,
+            'Interpreter':pythontype,
+            'BuildDate':_pf.python_build()[1],
+            'BuildCompiler':_pf.python_compiler(),
+            'BuildNo':_pf.python_build()[0],
+            'SCM':_pf.python_branch(),
+            'InterpreterConfig': {
+                'PyCachePath':_sys.pycache_prefix,
+                'RecursionLimit':_sys.getrecursionlimit(),
+                'MaxSize':str(_sys.maxsize),
+                'MaxUnicode':_sys.maxunicode,
+                'Prefix':_sys.prefix,
+                'C_API_Version':_sys.api_version,
+                'ModulePath':_sys.path
+            }
+        },
+        'OS':{
+            'Name':osname,
+            'Time':_t.time(),
+            'NodeName':_pf.node(),
+            'Version':osver,
+            'Machine':systemtype,
+            'Bit':_pf.architecture()[0],
+            'Agrv':_sys.argv,
+            'ENV':dict(_os.environ),
+            'BootTime':_ps.users(),
+            'Hardware':{
+                'CPU':{
+                    'Count':_ps.cpu_count(logical=False),
+                    'CoreCount':_ps.cpu_count(),
+                    'Frequency':_ps.cpu_freq(),
+                    'Name':_pf.processor()
+                },
+                'Memory':{
+                    'Total': _ps.virtual_memory()[0] / 1024  / 1024 ,
+                    'SWAP':_ps.swap_memory()[0] / 1024 / 1024
+                }
+            },
+            'Network':{
+                'MAC':get_mac_address()
+            },
+            'MoYanDeviceID':getDeviceID(),
+            'UUID_DeviceID':uuid.getnode(),
+            'Process':processes
+            
+        }
+    }
+    return ua
+    
 def genVerifiCode(wei: int = 4):
     """_summary_
 
