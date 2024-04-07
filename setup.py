@@ -11,8 +11,7 @@ setup(
         # 添加你的依赖库
         "requests",
         "psutil",
-        "click",
-        "rsa",
+        "click"
     ],
     classifiers=[
         "Development Status :: 3 - Alpha",

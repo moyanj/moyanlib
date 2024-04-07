@@ -1,7 +1,6 @@
 requests
 click
 psutil
-rsa
 pytest
 pytest-html
 pytest-mock
