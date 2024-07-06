@@ -24,12 +24,14 @@ if not _os.path.exists(_os.path.join(cachePath, "lib.json.pkl")):  # 判断缓�
     _os.makedirs(_os.path.join(cachePath), exist_ok=True)
     _p.dump(parserInfo, open(_os.path.join(cachePath, "lib.json.pkl"), "wb"))
 else:
+    print("Powered by MoYan(https://github.com/moyanj)")
     # 加载缓存
     parserInfo = _p.load(open(_os.path.join(cachePath, "lib.json.pkl"), "rb"))
 
 
 @lru_cache
 def _getParser():
+    
     # 获取解析器
     return _il.import_module(parserInfo[0]["name"])
 
