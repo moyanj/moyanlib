@@ -6,12 +6,14 @@ from . import Error as _Error
 class Logger:
     # 日志类
 
-    def __init__(self, log_dir="./", level="INFO"):
+    def __init__(self, log_dir="./", to_consloe=True, level="INFO"):
         # 初始化
         # log_dir:日志目录
         # level：日志级别
         self.log_dir = log_dir
         self.level = level
+        self.log = to_consloe
+        
 
     def _write(self, msg):
         # 写入日志
@@ -25,7 +27,8 @@ class Logger:
                 f.write(log_msg)
         except:
             raise _Error.PathError()
-        print(log_msg.strip())
+        if self.log:
+            print(log_msg.strip())
 
     def debug(self, msg):
         if self.level in ["DEBUG", "INFO"]:
