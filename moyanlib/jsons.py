@@ -8,7 +8,7 @@ import requests as _req
 
 cachePath = _os.path.join(str(_pl.Path.home()), ".moyan")  # 缓存路径
 if not _os.path.exists(_os.path.join(cachePath, "lib.json.pkl")):  # 判断缓存是否存在
-    parserList = ["orjson", "ujson", "simdjson", "simplejson", "json"]  # 解析器列表
+    parserList = ["ujson", "simdjson", "simplejson", "json"]  # 解析器列表
     parser5List = ["pyjson5", "json5"]  # json5解析器列表
 
     parserInfo = []  # 解析器信息
